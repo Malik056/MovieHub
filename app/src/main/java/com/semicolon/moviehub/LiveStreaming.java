@@ -1,17 +1,9 @@
 package com.semicolon.moviehub;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.Toast;
+
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -21,18 +13,30 @@ import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-
-import java.util.List;
-
 public class LiveStreaming extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
+
+
+
+
+
+
+
+
     public static final String API_KEY = "AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY";
-    public static final String VIDEO_ID = "aJ7BoNG-r2c";
+    public String VIDEO_ID = "ZxEGXIdodKk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_streaming);
+
+        Intent intent=getIntent();
+        VIDEO_ID=intent.getStringExtra("vId");
+        //Toast.makeText(this, ""+intent.getStringExtra("vId"), Toast.LENGTH_LONG).show();
+
+
+
 
         /** Initializing YouTube Player View **/
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player);

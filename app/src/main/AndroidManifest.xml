@@ -19,10 +19,8 @@
         <activity android:name=".VideoViewerActivity"></activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity"></activity>
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar">
+
+        <activity android:name=".channelvideo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -30,16 +28,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".LiveStreaming"
             android:label="@string/title_activity_live_streaming"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name="io.vov.vitamio.activity.InitActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>
