@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MovieHub</string>
     <string name="title_activity_live_streaming">LiveStreaming</string>
+    <string name="facebook_app_id">430053571073200</string>
+    <string name="fb_login_protocol_scheme">fb430053571073200</string>
+
 </resources>

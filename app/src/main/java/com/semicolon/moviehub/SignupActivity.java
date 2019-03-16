@@ -1,13 +1,11 @@
 package com.semicolon.moviehub;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -23,16 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.semicolon.moviehub.models.User;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
     private DatabaseReference ref;
@@ -53,7 +41,6 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
 
     @Override
@@ -63,22 +50,12 @@ public class SignupActivity extends AppCompatActivity {
 
         mAuth=FirebaseAuth.getInstance();
 
-
         ref = FirebaseDatabase.getInstance().getReference("Users");
         mAuth = FirebaseAuth.getInstance();
         Button mSignupBtn = findViewById(R.id.SignupBtn);
         mSignupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email="test@test.com",password="pwd";
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener((Activity) getApplicationContext(), new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                     firebaseUser = mAuth.getCurrentUser();
-
                 TextView textView = findViewById(R.id.emailSignup);
                 String email = textView.getText().toString();
                 textView = findViewById(R.id.nameSignup);
@@ -90,17 +67,6 @@ public class SignupActivity extends AppCompatActivity {
                 RadioGroup radioGroup = findViewById(R.id.types);
                 RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
                 String type = radioButton.getText().toString();
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-
-                                // ...
-                            }
-                        });
                 if(pwd.equals(cpwd)) {
                     mAuth.createUserWithEmailAndPassword(email, pwd)
                             .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {

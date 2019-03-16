@@ -35,7 +35,7 @@ public class LiveStreaming extends YouTubeBaseActivity implements YouTubePlayer.
         setContentView(R.layout.activity_live_streaming);
 
         /** Initializing YouTube Player View **/
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player);
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player);
         youTubePlayerView.initialize(API_KEY, this);
     }
 
