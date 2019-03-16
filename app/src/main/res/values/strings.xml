@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieHub</string>
+    <string name="title_activity_live_streaming">LiveStreaming</string>
 </resources>
