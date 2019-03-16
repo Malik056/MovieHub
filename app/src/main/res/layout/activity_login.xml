@@ -73,16 +73,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't have an account? "
-            android:layout_gravity="end"
-            android:layout_weight="1"/>
+            android:layout_gravity="end"/>
 
-        <TextView
+            <TextView
             android:id="@+id/signupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Menu"
-            android:text="Sign Up"/>
+                android:textStyle="bold"
+            android:text="Sign Up" />
 
 
     </LinearLayout>
