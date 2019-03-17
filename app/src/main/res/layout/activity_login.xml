@@ -22,7 +22,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email Address">
+        android:hint="@string/email_address">
 
         <EditText
             android:id="@+id/email"
@@ -36,7 +36,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password">
+        android:hint="@string/password">
 
         <EditText
             android:id="@+id/password"
@@ -51,15 +51,15 @@
         android:id="@+id/forgotPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot password?"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:layout_gravity="center"/>
+        android:text="@string/forgot_password" />
 
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"/>
+        android:text="@string/log_in" />
 
 
     <LinearLayout
@@ -73,19 +73,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? "
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:text="@string/dont_have_account" />
 
-            <TextView
+        <TextView
             android:id="@+id/signupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-                android:textStyle="bold"
-            android:text="Sign Up" />
+            android:text="@string/signup"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -99,22 +100,22 @@
             android:id="@+id/fbBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="facebook"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/facebook" />
 
         <Button
             android:id="@+id/twitterBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="twitter"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/twitter" />
 
         <Button
             android:id="@+id/gmailBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gmail"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/gmail" />
 
     </LinearLayout>
 </LinearLayout>

@@ -28,6 +28,8 @@ public class HomeActivity extends Fragment {
 	private ArrayList<Video> recommended;
 
 
+
+
 //
 //	@Override
 //	protected void onCreate(Bundle savedInstanceState) {

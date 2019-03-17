@@ -19,11 +19,12 @@
         <activity android:name=".UploadActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
-        <activity
+            android:label="@string/title_activity_main">
             android:name=".Channels"
             android:label="@string/title_activity_channels"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".VideoViewerActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
@@ -34,11 +35,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
+
+            <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+            </activity>
         <activity
             android:name=".LiveStreaming"
             android:label="@string/title_activity_live_streaming"

@@ -10,6 +10,31 @@
     <string name="title_dashboard">Videos</string>
     <string name="title_notifications">Notifications</string>
 
+    <!--Login activity String-->
+    <string name="forgot_password">Forgot password?</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="log_in">Login</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="signup">Signup</string>
+    <string name="facebook">FACEBOOK</string>
+    <string name="twitter">TWITTER</string>
+    <string name="gmail">GMAIL</string>
+
+    <!--Signup Activity String -->
+    <string name="firstname">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="account_type">Account Type: </string>
+    <string name="basic">Basic</string>
+    <string name="premium">Premium</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="change_language">Change Language</string>
+
+
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

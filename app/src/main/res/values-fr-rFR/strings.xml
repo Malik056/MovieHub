@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieHub</string>
+
+    <string name="title_activity_live_streaming">LiveStreaming</string>
+    <string name="title_activity_home">AccueilActivité</string>
+    <string name="posters">affiches</string>
+    <string name="facebook_app_id">430053571073200</string>
+    <string name="fb_login_protocol_scheme">fb430053571073200</string>
+    <string name="title_activity_main">Activité principale</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_dashboard">Tableau de bord</string>
+    <string name="title_notifications">Les notifications</string>
+
+    <!--Login activity String-->
+    <string name="forgot_password">mot de passe oublié?</string>
+    <string name="email_address">Adresse électronique</string>
+    <string name="password">Mot de passe</string>
+    <string name="log_in">S\'identifier</string>
+    <string name="dont_have_account">Vous n\'avez pas de compte?</string>
+    <string name="signup">S\'inscrire</string>
+    <string name="facebook">FACEBOOK</string>
+    <string name="twitter">TWITTER</string>
+    <string name="gmail">GMAIL</string>
+
+    <!--Signup Activity String -->
+    <string name="firstname">Nom complet</string>
+    <string name="confirm_password">Confirmez le mot de passe</string>
+    <string name="account_type">Type de compte:</string>
+    <string name="basic">De base</string>
+    <string name="premium">Prime</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="already_have_account">Vous avez déjà un compte?</string>
+    <string name="change_language">Change Language</string>
+
+
+</resources>

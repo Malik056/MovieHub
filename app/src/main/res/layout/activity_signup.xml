@@ -21,8 +21,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Emai Address"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:hint="@string/email_address">
 
         <EditText
             android:id="@+id/emailSignup"
@@ -37,8 +37,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full Name"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:hint="@string/firstname">
 
         <EditText
             android:id="@+id/nameSignup"
@@ -54,8 +54,8 @@
         android:id="@+id/passwordLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:hint="@string/password">
 
         <EditText
             android:id="@+id/passwordSignup"
@@ -70,8 +70,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:hint="@string/confirm_password">
 
         <EditText
             android:id="@+id/confirmPasswordSignup"
@@ -89,25 +89,27 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account Type:"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/account_type" />
+
         <RadioButton
             android:id="@+id/Basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Basic"/>
+            android:text="@string/basic" />
 
         <RadioButton
             android:id="@+id/Premium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Premium"/>
+            android:text="@string/premium" />
     </RadioGroup>
 
     <Button
@@ -115,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Create account"/>
+        android:text="@string/create_account" />
 
 
     <LinearLayout
@@ -129,19 +131,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account? "
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:text="@string/already_have_account" />
 
         <TextView
             android:id="@+id/LoginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="Login" />
+            android:text="@string/log_in"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
