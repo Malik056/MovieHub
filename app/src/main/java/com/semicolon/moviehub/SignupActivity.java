@@ -2,6 +2,7 @@ package com.semicolon.moviehub;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -78,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             hideProgressDialog();
-                                            finish();
+                                            Intent intent=new Intent(getApplicationContext(),GenreListActivity.class);
                                         }
                                         else {
                                             hideProgressDialog();
