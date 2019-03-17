@@ -18,13 +18,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.semicolon.moviehub.models.Video;
+import com.semicolon.moviehub.model.Video;
 
 public class UploadActivity extends AppCompatActivity {
     private Uri file;
@@ -68,8 +68,17 @@ public class UploadActivity extends AppCompatActivity {
                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                finalReference.setValue(new Video(finalReference.getKey(), title, descr, uri.toString()));
+
+                                Video lVideo = new Video();
+                                lVideo.id = finalReference.getKey();
+                                lVideo.title = title;
+                                lVideo.description = descr;
+                                lVideo.videoUrl = uri.toString();
+                                lVideo.type = type;
+                                lVideo.uploader = FirebaseAuth.getInstance().getUid();
+                                finalReference.setValue(lVideo);
                                 dialog.dismiss();
+
                                 Toast.makeText(getApplicationContext(), "File uploaded", Toast.LENGTH_SHORT).show();
                             }
                         });

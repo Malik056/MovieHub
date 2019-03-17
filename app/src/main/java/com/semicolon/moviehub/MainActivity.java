@@ -18,6 +18,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Config;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewParent;
@@ -59,7 +61,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    public static final String uploader = "Uploader";
+	public static final String admin = "admin";
+	public static final String premium_user = "premium";
+	public static final String normal_user= "user";
+
+
+
+	private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
 			= new BottomNavigationView.OnNavigationItemSelectedListener() {
 
 		@Override
@@ -67,17 +76,62 @@ public class MainActivity extends AppCompatActivity {
 			switch (item.getItemId()) {
 
 				case R.id.navigation_home:
-
-
 					lViewPager.setCurrentItem(0);
 					return true;
 				case R.id.navigation_dashboard:
 					lViewPager.setCurrentItem(1);
 					return true;
+				case R.id.search_video:
+					lViewPager.setCurrentItem(2);
 			}
 			return false;
 		}
 	};
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		String userType = getIntent().getStringExtra("user");
+		if(userType == null) userType = normal_user;
+		if(userType.equals(normal_user))
+		{
+			getMenuInflater().inflate(R.menu.user_menu, menu);
+		}
+		else if(userType.equals(uploader))
+		{
+			getMenuInflater().inflate(R.menu.uploader_admin_menu, menu);
+		}
+		else if(userType.equals(premium_user))
+		{
+			getMenuInflater().inflate(R.menu.premium_user_menu, menu);
+		}
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId())
+		{
+			case R.id.add_video:
+				Intent lIntent = new Intent(getApplicationContext(),UploadActivity.class);
+				startActivity(lIntent);
+				break;
+			case R.id.change_lang:
+				showChangeLanguageDialogue();
+				break;
+			case R.id.go_premium:
+				item.setTitle(R.string.become_uploader);
+				break;
+			case R.id.become_uploader:
+				item.setVisible(false);
+				break;
+		}
+
+
+		return super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,23 +144,13 @@ public class MainActivity extends AppCompatActivity {
         if(actionbar!=null){
             actionbar.setTitle(getResources().getString(R.string.app_name));
         }
-		mTextMessage = findViewById(R.id.message);
+//		mTextMessage = findViewById(R.id.message);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
 		lViewPager = findViewById(R.id.container);
 		lViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-		//showChangeLanguageDialogue();
-        floatingActionButton=findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showChangeLanguageDialogue();
-                Intent intent=new Intent(getApplicationContext(),SignupActivity.class);
-                //startActivity(intent);
 
-            }
-        });
 
 	}
 
@@ -123,14 +167,18 @@ public class MainActivity extends AppCompatActivity {
 			{
 				return HomeFragment.newInstance();
 			}
-			else {
+			else if(pI == 1) {
 				return new ChannelVideoFragment();
+			}
+			else
+			{
+				return new HomeFragment();
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 3;
 		}
 	}
 
