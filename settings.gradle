@@ -1,3 +1,1 @@
-include ':app', ':vitamio-sample', ':vitamio'
-project(':vitamio-sample').projectDir = new File('VitamioBundle-4.2.2/vitamio-sample')
-project(':vitamio').projectDir = new File('VitamioBundle-4.2.2/vitamio')
+include ':app'

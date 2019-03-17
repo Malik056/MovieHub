@@ -3,13 +3,21 @@ package com.semicolon.moviehub;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.semicolon.moviehub.adapters.CommentAdapter;
+import com.semicolon.moviehub.model.Comment;
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
+
+import java.util.ArrayList;
 
 public class VideoViewerActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback{
 
@@ -60,18 +68,27 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 		mVideoView.setMediaController(mMediaController);
 		setVideoAreaSize();
 		mVideoView.setVideoViewCallback(this);
-		mStart = (TextView) findViewById(R.id.start);
+//		mStart = (TextView) findViewById(R.id.start);
+//
+//		mStart.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if (mSeekPosition > 0) {
+//					mVideoView.seekTo(mSeekPosition);
+//				}
+//				mVideoView.start();
+//				mMediaController.setTitle("Big Buck Bunny");
+//			}
+//		});
 
-		mStart.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mSeekPosition > 0) {
-					mVideoView.seekTo(mSeekPosition);
-				}
-				mVideoView.start();
-				mMediaController.setTitle("Big Buck Bunny");
-			}
-		});
+
+		RecyclerView comments = findViewById(R.id.comments);
+		ArrayList<Comment> lComments = new ArrayList<>();
+
+		comments.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+		comments.setAdapter(new CommentAdapter(lComments));
+
+		initializeComments(comments, lComments, ID);
 
 		mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 			@Override
@@ -79,6 +96,12 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 				Log.d(TAG, "onCompletion ");
 			}
 		});
+
+	}
+
+	private void initializeComments(RecyclerView pRecyclerView, ArrayList<Comment> pComments1, String pID) {
+
+		DatabaseReference lFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
 
 	}
 
