@@ -42,5 +42,7 @@
     <string name="french">French</string>
     <string name="search">Search</string>
     <string name="english">English</string>
+    <string name="add_video">Add Video</string>
+    <string name="log_out">Log out</string>
 
 </resources>

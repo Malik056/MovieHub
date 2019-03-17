@@ -1,6 +1,12 @@
 package com.semicolon.moviehub.models;
 
 public class User {
+
+    public static final String viewer = "Viewer";
+    public static final String uploader = "Uploader";
+    public static final String premium = "Premium";
+    public static final String admin = "admin";
+
     String email;
     String fullname;
     String password;

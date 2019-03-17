@@ -25,7 +25,13 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.semicolon.moviehub.models.User;
+
 import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -112,24 +118,27 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		switch (item.getItemId())
+		if(item.getTitle().equals(getString(R.string.add_video)))
 		{
-			case R.id.add_video:
-				Intent lIntent = new Intent(getApplicationContext(),UploadActivity.class);
-				startActivity(lIntent);
-				break;
-			case R.id.change_lang:
-				showChangeLanguageDialogue();
-				break;
-			case R.id.go_premium:
-				item.setTitle(R.string.become_uploader);
-				break;
-			case R.id.become_uploader:
-				item.setVisible(false);
-				break;
+			Intent lIntent1 = new Intent(getApplicationContext(),UploadActivity.class);
+			startActivity(lIntent1);
 		}
-
-
+		else if(item.getTitle().equals(getString(R.string.change_language)))
+		{
+			showChangeLanguageDialogue();
+		}
+		else if(item.getTitle().equals(getString(R.string.become_uploader)))
+		{
+			item.setTitle(R.string.add_video);
+		}
+		else if(item.getTitle().equals(getString(R.string.go_premium)))
+		{
+			item.setTitle(R.string.become_uploader);
+		}
+		else if(item.getItemId() == R.id.logout)
+		{
+			FirebaseAuth.getInstance().signOut();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 

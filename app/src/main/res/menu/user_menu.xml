@@ -5,5 +5,7 @@
         android:title="@string/go_premium"/>
     <item android:id="@+id/change_lang"
         android:title="@string/change_language"/>
+    <item android:id="@+id/logout"
+        android:title="@string/log_out"/>
 
 </menu>

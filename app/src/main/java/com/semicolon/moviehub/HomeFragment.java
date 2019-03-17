@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.semicolon.moviehub.adapters.NewArivalVideoAdapter;
 import com.semicolon.moviehub.adapters.VideoListAdapter;
 import com.semicolon.moviehub.model.Video;
@@ -75,6 +81,21 @@ public class HomeFragment extends Fragment {
 		imageModelArrayList = new ArrayList<>();
 		recent = new ArrayList<>();
 		recommended = new ArrayList<>();
+
+
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Videos");
+
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot pDataSnapshot) {
+				Iterable<DataSnapshot> lDataSnapshots = pDataSnapshot.getChildren();
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError pDatabaseError) {
+
+			}
+		});
 
 
 		for(int i = 0; i < 6; i++){
