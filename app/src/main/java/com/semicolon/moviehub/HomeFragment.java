@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
 		imageModelArrayList = new ArrayList<>();
 		recent = new ArrayList<>();
 		recommended = new ArrayList<>();
-		populateList(recently_watched.getAdapter(), recommended_videos.getAdapter(), mPager.getAdapter());
+		populateList();
 		init();
 
 		return view;
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
 		super.onDetach();
 	}
 
-	private void populateList(final RecyclerView.Adapter pAdapter1, final RecyclerView.Adapter pAdapter2, final PagerAdapter pPagerAdapter){
+	private void populateList(){
 
 		DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Videos");
 
@@ -126,12 +126,22 @@ public class HomeFragment extends Fragment {
 					}
 					i++;
 				}
-				if(pAdapter1 != null)
-					pAdapter1.notifyDataSetChanged();
-				if(pAdapter2 != null)
-					pAdapter2.notifyDataSetChanged();
-				if(pPagerAdapter != null)
-					pPagerAdapter.notifyDataSetChanged();
+
+				if(recently_watched.getAdapter() != null)
+				{
+					recently_watched.getAdapter().notifyDataSetChanged();
+				}
+
+				if(recommended_videos.getAdapter() != null)
+				{
+					recommended_videos.getAdapter().notifyDataSetChanged();
+				}
+
+				if(mPager.getAdapter() != null)
+				{
+					mPager.getAdapter().notifyDataSetChanged();
+				}
+
 			}
 
 			@Override
