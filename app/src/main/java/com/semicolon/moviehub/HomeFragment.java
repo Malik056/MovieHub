@@ -66,8 +66,8 @@ public class HomeFragment extends Fragment {
 		imageModelArrayList = new ArrayList<>();
 		recent = new ArrayList<>();
 		recommended = new ArrayList<>();
-		init();
 		populateList(recently_watched.getAdapter(), recommended_videos.getAdapter(), mPager.getAdapter());
+		init();
 
 		return view;
 	}
