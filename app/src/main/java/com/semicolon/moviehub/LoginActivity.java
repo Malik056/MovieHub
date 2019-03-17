@@ -33,11 +33,24 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null)
+        {
+            Intent intent=new Intent(this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+
 
         Button mLoginBtn = findViewById(R.id.loginBtn);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         hideProgressDialog();
 
-                                        Intent intent = new Intent(getApplicationContext(), GenreListActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                    //     finish();
                                     }
