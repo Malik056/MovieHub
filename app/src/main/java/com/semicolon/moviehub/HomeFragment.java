@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
 	private ArrayList<Video> recommended;
 	private View view;
 
-	// TODO: Rename and change types and number of parameters
 	public static HomeFragment newInstance() {
 		return new HomeFragment();
 	}
@@ -127,26 +126,6 @@ public class HomeFragment extends Fragment {
 				handler.post(Update);
 			}
 		}, 3000, 3000);
-
-		// Pager listener over indicator
-//		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//			@Override
-//			public void onPageSelected(int position) {
-//				currentPage = position;
-//
-//			}
-//
-//			@Override
-//			public void onPageScrolled(int pos, float arg1, int arg2) {
-//
-//			}
-//
-//			@Override
-//			public void onPageScrollStateChanged(int pos) {
-//
-//			}
-//		});
 
 	}
 }
