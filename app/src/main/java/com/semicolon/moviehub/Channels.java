@@ -2,12 +2,16 @@ package com.semicolon.moviehub;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -21,7 +25,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.semicolon.moviehub.adapters.VideoAdapter;
+import com.semicolon.moviehub.adapters.ChannelAdapter;
+import com.semicolon.moviehub.adapters.ChannelAdapter;
+import com.semicolon.moviehub.models.ChannelInfo;
 import com.semicolon.moviehub.models.Video;
 
 import org.json.JSONArray;
@@ -30,47 +36,53 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class channelvideo extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
+
+
+public class Channels extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
     GestureDetector gestureDetector;
-    ArrayList<Video> videos;
-    RecyclerView rv;
-    VideoAdapter adapter;
+    ArrayList<ChannelInfo> videos;
+    RecyclerView rvChannel;
+    ChannelAdapter adapterChannel;
     RequestQueue requestQueue;
-    ArrayList<String> channelIDs;
     String channelURL="https://www.googleapis.com/youtube/v3/channels?part=snippet&forUsername=ary+news&key=AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY";
-    String videoURL;
+    String videoURL="https://www.googleapis.com/youtube/v3/search?key=AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY&channelId=UCMmpLL2ucRHAXbNHiCPyIyg&part=snippet,id&order=date&maxResults=20&eventType=live&type=video";
     // String url="https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCMmpLL2ucRHAXbNHiCPyIyg&eventType=live&type=video&key=AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_channelvideo);
+        setContentView(R.layout.activity_channels);
 
-        Intent intent=getIntent();
-        if(intent!=null) {
-            String cId = intent.getStringExtra("cId");
-            videoURL = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY&channelId=" + cId + "&part=snippet,id&order=date&maxResults=20&eventType=live&type=video";
-        }
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
         requestQueue= Volley.newRequestQueue(this);
         videos=new ArrayList<>();
 
-        adapter=new VideoAdapter(videos, R.layout.video_item);
-        rv=(RecyclerView) findViewById(R.id.vRecyclerview);
-        rv.addOnItemTouchListener(this);
+        Bitmap bmap= BitmapFactory.decodeResource(getResources(),R.drawable.aljazeera);
+        videos.add(new ChannelInfo("Al-Jazeera","UCNye-wNBqNL5ZzHSJj3l8Bg",bmap));
 
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setItemAnimator(new DefaultItemAnimator());
-        rv.setAdapter(adapter);
+        bmap= BitmapFactory.decodeResource(getResources(),R.drawable.madnichannel);
+        videos.add(new ChannelInfo("Madni Channel","UCuUocUAnPTUkwGtC8GuNKow",bmap));
 
-        channelIDs=new ArrayList<>();
+        bmap= BitmapFactory.decodeResource(getResources(),R.drawable.arynews);
+        videos.add(new ChannelInfo("ARY NEWS","UCMmpLL2ucRHAXbNHiCPyIyg",bmap));
 
-        channelIDs.add("UCNye-wNBqNL5ZzHSJj3l8Bg");
-        channelIDs.add("UCuUocUAnPTUkwGtC8GuNKow");
-        channelIDs.add("UCMmpLL2ucRHAXbNHiCPyIyg");
-        channelIDs.add("UCTur7oM6mLL0rM2k0znuZpQ");
+        bmap= BitmapFactory.decodeResource(getResources(),R.drawable.expressnews);
+        videos.add(new ChannelInfo("Express News","UCTur7oM6mLL0rM2k0znuZpQ",bmap));
 
-        for(int i=0;i<channelIDs.size();i++){
-            retrieveVideos(channelIDs.get(i));
-        }
+
+
+        adapterChannel=new ChannelAdapter(videos, R.layout.channellayout);
+        rvChannel=(RecyclerView) findViewById(R.id.cRecyclerview);
+        rvChannel.addOnItemTouchListener(this);
+
+        rvChannel.setLayoutManager(new LinearLayoutManager(this));
+        rvChannel.setItemAnimator(new DefaultItemAnimator());
+        rvChannel.setAdapter(adapterChannel);
+
+        retrieveVideos();
 
 
 
@@ -83,12 +95,12 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
             public boolean onSingleTapUp(MotionEvent e) {
                 //      Toast.makeText(c,"onSingleTap",Toast.LENGTH_SHORT).show();
 
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                View child = rvChannel.findChildViewUnder(e.getX(), e.getY());
                 if(child != null)
                 {
-                    int pos=rv.getChildAdapterPosition(child);
-                    Intent intent=new Intent(getApplicationContext(), LiveStreaming.class);
-                    intent.putExtra("vId",videos.get(pos).getVideoId());
+                    int pos=rvChannel.getChildAdapterPosition(child);
+                    Intent intent=new Intent(getApplicationContext(), channelvideo.class);
+                    intent.putExtra("cId",videos.get(pos).getChannelId());
                     startActivity(intent);
 
                 }
@@ -104,11 +116,11 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
     }
 
 
-    public void retrieveVideos(String cId)
+    public void retrieveVideos()
     {
+        /*
         JSONArray json1=new JSONArray();
-        videoURL="https://www.googleapis.com/youtube/v3/search?key=AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY&channelId="+cId+"&part=snippet,id&order=date&maxResults=20&eventType=live&type=video";
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, videoURL, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, channelURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -133,7 +145,7 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
                                     public void onResponse(Bitmap bitmap) {
                                         v.setMap(bitmap);
                                         videos.add(v);
-                                        adapter.notifyDataSetChanged();
+                                        adapterChannel.notifyDataSetChanged();
                                     }
                                 }, 0, 0, null,
                                 new Response.ErrorListener() {
@@ -153,7 +165,7 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
 
                 }
             }
-            }, new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -162,7 +174,7 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
         });
 
         requestQueue.add(stringRequest);
-
+*/
 
     }
 
@@ -183,4 +195,5 @@ public class channelvideo extends AppCompatActivity implements RecyclerView.OnIt
     public void onRequestDisallowInterceptTouchEvent(boolean b) {
 
     }
+
 }
