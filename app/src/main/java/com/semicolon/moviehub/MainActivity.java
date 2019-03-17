@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 				return HomeFragment.newInstance();
 			}
 			else {
-				return HomeFragment.newInstance();
+				return new ChannelVideoFragment();
 			}
 		}
 

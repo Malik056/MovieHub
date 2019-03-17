@@ -2,22 +2,31 @@ package com.semicolon.moviehub;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.semicolon.moviehub.adapters.CommentAdapter;
 import com.semicolon.moviehub.model.Comment;
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VideoViewerActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback{
 
@@ -42,13 +51,15 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_viewer_activity);
 
+
 		Bundle lBundle = getIntent().getExtras();
 		assert lBundle != null;
 		String url = lBundle.getString("url");
 		String title = lBundle.getString("title");
 		String posterUrl = lBundle.getString("poster");
-		String ID = lBundle.getString("ID");
+		final String ID = lBundle.getString("ID");
 		String uploader = lBundle.getString("uploader");
+		handleVoting(ID);
 
 //		intent.putExtra(MediaPlayerActivity.SubtitleUri, subtitleUri);
 
@@ -60,7 +71,8 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 //		videoView.setMediaController(mediaController);
 //		videoView.setVideoURI(Uri.parse(url));
 //		videoView.start();
-
+		TextView titleText = findViewById(R.id.title);
+		titleText.setText(title);
 		mVideoLayout = findViewById(R.id.video_layout);
 		mBottomLayout = findViewById(R.id.bottom_layout);
 		mVideoView = (UniversalVideoView) findViewById(R.id.videoView);
@@ -82,7 +94,7 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 //		});
 
 
-		RecyclerView comments = findViewById(R.id.comments);
+		final RecyclerView comments = findViewById(R.id.comments);
 		ArrayList<Comment> lComments = new ArrayList<>();
 
 		comments.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -97,12 +109,123 @@ public class VideoViewerActivity extends AppCompatActivity implements UniversalV
 			}
 		});
 
+		ImageView send = findViewById(R.id.send_comment);
+		final TextView comment = findViewById(R.id.comment_content);
+		final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+		send.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View pView) {
+				String text = comment.getText().toString();
+				String username = mAuth.getUid();
+
+				HashMap<String,String> hashmap = new HashMap<>();
+				hashmap.put("comment", text);
+				hashmap.put("UID", username);
+
+				DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+				assert ID != null;
+				ref.child("comments").child(ID).push().setValue(hashmap);
+
+			}
+		});
+
 	}
 
-	private void initializeComments(RecyclerView pRecyclerView, ArrayList<Comment> pComments1, String pID) {
+	private void handleVoting(final String ID) {
+
+		final boolean[] found = {false};
+		final int[] upCount = {0};
+		final int[] downCount = {0};
+		final TextView upvotes = findViewById(R.id.upvote);
+		final TextView downvotes =findViewById(R.id.down_vote);
+
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes")
+				.child(ID);
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot pDataSnapshot) {
+				Iterable<DataSnapshot> data = pDataSnapshot.getChildren();
+
+				final String UID = FirebaseAuth.getInstance().getUid();
+
+				for(DataSnapshot d : data)
+				{
+					if(d.getKey().equals(UID))
+					{
+						found[0] = true;
+					}
+					if(d.child("vote").getValue().toString().equals("1"))
+					{
+						upCount[0]++;
+					}
+					else if(d.child("vote").getValue().toString().equals("-1"))
+					{
+						downCount[0]++;
+					}
+
+				}
+
+				upvotes.setText(""+upCount);
+				downvotes.setText(""+downCount);
+
+				if(!found[0])
+				{
+					upvotes.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View pView) {
+							HashMap<String, String> hashmap = new HashMap<>();
+							hashmap.put("vote", "1");
+							DatabaseReference votes = FirebaseDatabase.getInstance().getReference().child("votes").child(ID);
+							assert UID != null;
+							votes.child(UID).setValue(hashmap);
+						}
+					});
+					downvotes.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View pView) {
+							HashMap<String, String> hashmap = new HashMap<>();
+							hashmap.put("vote", "-1");
+							DatabaseReference votes = FirebaseDatabase.getInstance().getReference().child("votes").child(ID);
+							assert UID != null;
+							votes.child(UID).setValue(hashmap);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError pDatabaseError) {
+
+			}
+		});
+
+	}
+
+	private void initializeComments(final RecyclerView pRecyclerView, final ArrayList<Comment> pComments1, String pID) {
 
 		DatabaseReference lFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
+		lFirebaseDatabase.child("comments").child(pID).addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot pDataSnapshot) {
+				Iterable<DataSnapshot> iterable = pDataSnapshot.getChildren();
+				for(DataSnapshot d : iterable)
+				{
+					Comment lComment = new Comment();
+					lComment.comment = (String) d.child("comment").getValue();
+					lComment.comment = (String) d.child("UID").getValue();
+					pComments1.add(lComment);
+				}
+				if(pRecyclerView.getAdapter() != null)
+				{
+					pRecyclerView.getAdapter().notifyDataSetChanged();
+				}
+			}
 
+			@Override
+			public void onCancelled(@NonNull DatabaseError pDatabaseError) {
+
+			}
+		});
 	}
 
 	@Override

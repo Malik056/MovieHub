@@ -15,14 +15,6 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class LiveStreaming extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-
-
-
-
-
-
-
-
     public static final String API_KEY = "AIzaSyAywyVuq6CXu-Zezjgz_n67gmxxaJ_w4cY";
     public String VIDEO_ID = "ZxEGXIdodKk";
 
