@@ -62,7 +62,7 @@ public class UploadActivity extends AppCompatActivity {
                 ref.putFile(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Videos").child(type);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Videos");
                         reference = reference.push();
                         final DatabaseReference finalReference = reference;
                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

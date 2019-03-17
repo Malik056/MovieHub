@@ -174,14 +174,14 @@ public class MainActivity extends AppCompatActivity {
 		public Fragment getItem(int pI) {
 			if(pI == 0)
 			{
-				return HomeFragment.newInstance();
+				return HomeFragment.newInstance("");
 			}
 			else if(pI == 1) {
 				return new ChannelVideoFragment();
 			}
 			else
 			{
-				return new HomeFragment();
+				return HomeFragment.newInstance("");
 			}
 		}
 

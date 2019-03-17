@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.semicolon.moviehub.adapters.NewArivalVideoAdapter;
 import com.semicolon.moviehub.adapters.VideoListAdapter;
 import com.semicolon.moviehub.model.Video;
+import com.semicolon.moviehub.models.User;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -42,8 +44,10 @@ public class HomeFragment extends Fragment {
 	private ArrayList<Video> recent;
 	private ArrayList<Video> recommended;
 	private View view;
+	private static String user = User.viewer;
 
-	public static HomeFragment newInstance() {
+	public static HomeFragment newInstance(String user) {
+		HomeFragment.user = user;
 		return new HomeFragment();
 	}
 
@@ -57,10 +61,13 @@ public class HomeFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		view = inflater.inflate(R.layout.fragment_home, container, false);
-		populateList();
 		recently_watched = view.findViewById(R.id.recent_videos);
 		recommended_videos = view.findViewById(R.id.recommended_videos);
+		imageModelArrayList = new ArrayList<>();
+		recent = new ArrayList<>();
+		recommended = new ArrayList<>();
 		init();
+		populateList(recently_watched.getAdapter(), recommended_videos.getAdapter(), mPager.getAdapter());
 
 		return view;
 	}
@@ -75,13 +82,7 @@ public class HomeFragment extends Fragment {
 		super.onDetach();
 	}
 
-
-	private void populateList(){
-
-		imageModelArrayList = new ArrayList<>();
-		recent = new ArrayList<>();
-		recommended = new ArrayList<>();
-
+	private void populateList(final RecyclerView.Adapter pAdapter1, final RecyclerView.Adapter pAdapter2, final PagerAdapter pPagerAdapter){
 
 		DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Videos");
 
@@ -89,6 +90,48 @@ public class HomeFragment extends Fragment {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot pDataSnapshot) {
 				Iterable<DataSnapshot> lDataSnapshots = pDataSnapshot.getChildren();
+				int i = 0;
+				for(DataSnapshot d : lDataSnapshots)
+				{
+					Video lVideo = new Video();
+					lVideo.id = d.getKey();
+					lVideo.uploader = (String) d.child("uploader").getValue();
+					lVideo.videoUrl = (String) d.child("url").getValue();
+					lVideo.description = (String) d.child("description").getValue();
+					lVideo.title= (String) d.child("title").getValue();
+					lVideo.type = (String) d.child("type").getValue();
+					lVideo.type = (String) d.child("genre").getValue();
+
+					if(user.equals(User.viewer) && lVideo.type.equals(Video.public_video)) {
+						if (i < 6)
+							imageModelArrayList.add(lVideo);
+
+						if (i % 3 == 0) {
+							recent.add(lVideo);
+						}
+
+						recommended.add(lVideo);
+					}
+					else if(user.equals(User.uploader) || user.equals(User.premium) || user.equals(User.admin))
+					{
+						if (i < 6)
+							imageModelArrayList.add(lVideo);
+
+						if (i % 3 == 0) {
+							recent.add(lVideo);
+						}
+
+						recommended.add(lVideo);
+
+					}
+					i++;
+				}
+				if(pAdapter1 != null)
+					pAdapter1.notifyDataSetChanged();
+				if(pAdapter2 != null)
+					pAdapter2.notifyDataSetChanged();
+				if(pPagerAdapter != null)
+					pPagerAdapter.notifyDataSetChanged();
 			}
 
 			@Override
@@ -98,17 +141,17 @@ public class HomeFragment extends Fragment {
 		});
 
 
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 2; i++){
 			Video imageModel = new Video();
 			imageModelArrayList.add(imageModel);
 		}
 
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 2; i++){
 			Video imageModel = new Video();
 			recommended.add(imageModel);
 		}
 
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 2; i++){
 			Video imageModel = new Video();
 			recent.add(imageModel);
 		}

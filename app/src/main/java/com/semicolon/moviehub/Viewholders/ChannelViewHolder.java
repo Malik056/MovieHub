@@ -15,6 +15,7 @@ public class ChannelViewHolder extends RecyclerView.ViewHolder {
     public ImageView thumbnail;
 
     public ChannelViewHolder(@NonNull View itemView) {
+
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.cTitle);
         thumbnail = (ImageView) itemView.findViewById(R.id.cThumbnail);
