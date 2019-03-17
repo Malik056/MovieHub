@@ -1,5 +1,6 @@
 package com.semicolon.moviehub;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +41,9 @@ public class GenreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ArrayList<Boolean> checklist = new ArrayList<>();
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("user",MainActivity.normal_user);
+                startActivity(intent);
             }
         });
 
